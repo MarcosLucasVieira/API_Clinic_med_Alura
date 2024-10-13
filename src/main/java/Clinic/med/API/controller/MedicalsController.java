@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,28 +22,47 @@ public class MedicalsController {
 
     @PostMapping
     @Transactional
-    public void register(@RequestBody @Valid  MedicaslRegisterData data){
-        repository.save(new Medicals(data));
+    public ResponseEntity register(@RequestBody @Valid  MedicaslRegisterData data, UriComponentsBuilder uriBuilder) {
+        var medical = new Medicals(data);
+        repository.save(medical);
+
+        var uri = uriBuilder.path("/medicals/{id}").buildAndExpand(medical.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new MedicalsDetailsData(medical));
     }
 
     @GetMapping
-    public Page<DataListMedicals> listar(@PageableDefault(size=10, sort={"nome"}) Pageable paginacao){
-    return repository.findAllByAtivoTrue(paginacao).map(DataListMedicals::new);
+    public ResponseEntity <Page<DataListMedicals>> listar(@PageableDefault(size=10, sort={"nome"}) Pageable paginacao){
+        var page = repository.findAllByAtivoTrue(paginacao).map(DataListMedicals::new);
+
+        return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity details (@PathVariable Long id){
+        var doctor = repository.getReferenceById(id);
+        return ResponseEntity.ok(new MedicalsDetailsData(doctor));
     }
 
     @PutMapping
     @Transactional
-    public void update (@RequestBody @Valid MedicaslUpdateData data){
+    public ResponseEntity update (@RequestBody @Valid MedicaslUpdateData data){
     var doctor = repository.getReferenceById(data.id());
     doctor.updateInfo(data);
+
+    return ResponseEntity.ok(new MedicalsDetailsData(doctor));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public  void delete (@PathVariable Long id){
+    public ResponseEntity delete (@PathVariable Long id){
         var doctor = repository.getReferenceById(id);
         doctor.delete();
+
+        return ResponseEntity.noContent().build();
     }
+
+
 
 }
 
