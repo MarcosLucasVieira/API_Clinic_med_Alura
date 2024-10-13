@@ -1,6 +1,6 @@
-package Clinic.med.API.medicals;
+package Clinic.med.API.domain.nurses;
 
-import Clinic.med.API.adress.Adress;
+import Clinic.med.API.domain.adress.Adress;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -10,14 +10,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-@Table(name ="medicals")
-@Entity(name = "medical")
+@Table(name = "nurses")
+@Entity(name = "nurse")
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Medicals {
+public class Nurses {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,16 +25,14 @@ public class Medicals {
     private String nome;
 
     @NotBlank
-    private String crm;
-
-    @NotBlank @Email
+    @Email
     private String email;
 
     @NotBlank
     private String telefone;
 
-    @Enumerated(EnumType.STRING)
-    private Specialty especialidade;
+    @NotBlank
+    private String coren;
 
     @Embedded
     private Adress endereco;
@@ -43,26 +40,25 @@ public class Medicals {
     private Boolean ativo;
 
 
-    public Medicals(MedicaslRegisterData data) {
+    public Nurses(@Valid RegisterNursesData data) {
         this.ativo = true;
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
-        this.crm = data.crm();
-        this.especialidade = data.especialidade();
+        this.coren = data.coren();
         this.endereco = new Adress(data.endereco());
-
     }
 
-    public void updateInfo(@Valid MedicaslUpdateData data) {
+    public void updateInfo(@Valid NurseUpdateData data) {
         if(data.nome() != null){
             this.nome = data.nome();
         }
-        if (data.telefone() != null){
+        if(data.telefone() != null){
             this.telefone = data.telefone();
         }
         if(data.endereco() != null){
-            this.endereco.updateInfo(data.endereco());}
+            this.endereco.updateInfo(data.endereco());
+        }
     }
 
     public void delete() {

@@ -1,11 +1,11 @@
-package Clinic.med.API.patients;
+package Clinic.med.API.domain.nurses;
 
 import io.micrometer.observation.ObservationFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PatientsRepository extends JpaRepository<patients, Long> {
+public interface NursesRepository extends JpaRepository<Nurses, Long> {
 
-    Page<patients> findAllByAtivoTrue(Pageable paginacao);
+    Page<Nurses> findAllByAtivoTrue(Pageable paginacao);
 }

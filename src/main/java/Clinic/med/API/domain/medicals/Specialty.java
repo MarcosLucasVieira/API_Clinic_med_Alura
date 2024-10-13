@@ -1,4 +1,4 @@
-package Clinic.med.API.medicals;
+package Clinic.med.API.domain.medicals;
 
 
 public enum Specialty {

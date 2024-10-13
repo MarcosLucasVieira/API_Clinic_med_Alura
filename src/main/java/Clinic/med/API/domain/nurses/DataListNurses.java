@@ -1,4 +1,4 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.domain.nurses;
 
 public record DataListNurses(Long id, String nome, String email, String coren) {
 

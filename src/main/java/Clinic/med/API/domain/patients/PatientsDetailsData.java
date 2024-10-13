@@ -1,4 +1,4 @@
-package Clinic.med.API.patients;
+package Clinic.med.API.domain.patients;
 
 public record PatientsDetailsData(Long id, String nome, String email, String telefone, String cpf) {
 

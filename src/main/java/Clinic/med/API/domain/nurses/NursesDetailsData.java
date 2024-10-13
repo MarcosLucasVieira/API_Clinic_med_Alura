@@ -1,6 +1,6 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.domain.nurses;
 
-import Clinic.med.API.adress.Adress;
+import Clinic.med.API.domain.adress.Adress;
 
 
 public record NursesDetailsData(Long id, String nome, String email, String coren, String telefone, Adress endereco ) {

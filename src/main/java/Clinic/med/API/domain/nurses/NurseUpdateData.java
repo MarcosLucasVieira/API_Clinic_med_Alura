@@ -1,6 +1,6 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.domain.nurses;
 
-import Clinic.med.API.adress.DataAdress;
+import Clinic.med.API.domain.adress.DataAdress;
 import jakarta.validation.constraints.NotNull;
 
 public record NurseUpdateData(

@@ -1,4 +1,4 @@
-package Clinic.med.API.medicals;
+package Clinic.med.API.domain.medicals;
 
 import io.micrometer.observation.ObservationFilter;
 import org.springframework.data.domain.Page;

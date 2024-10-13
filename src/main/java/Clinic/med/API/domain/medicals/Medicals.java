@@ -1,24 +1,23 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.domain.medicals;
 
-import Clinic.med.API.adress.Adress;
-import Clinic.med.API.adress.DataAdress;
+import Clinic.med.API.domain.adress.Adress;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "nurses")
-@Entity(name = "nurse")
+
+@Table(name ="medicals")
+@Entity(name = "medical")
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Nurses {
+public class Medicals {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,14 +26,16 @@ public class Nurses {
     private String nome;
 
     @NotBlank
-    @Email
+    private String crm;
+
+    @NotBlank @Email
     private String email;
 
     @NotBlank
     private String telefone;
 
-    @NotBlank
-    private String coren;
+    @Enumerated(EnumType.STRING)
+    private Specialty especialidade;
 
     @Embedded
     private Adress endereco;
@@ -42,25 +43,26 @@ public class Nurses {
     private Boolean ativo;
 
 
-    public Nurses(@Valid RegisterNursesData data) {
+    public Medicals(MedicaslRegisterData data) {
         this.ativo = true;
         this.nome = data.nome();
         this.email = data.email();
         this.telefone = data.telefone();
-        this.coren = data.coren();
+        this.crm = data.crm();
+        this.especialidade = data.especialidade();
         this.endereco = new Adress(data.endereco());
+
     }
 
-    public void updateInfo(@Valid NurseUpdateData data) {
+    public void updateInfo(@Valid MedicaslUpdateData data) {
         if(data.nome() != null){
             this.nome = data.nome();
         }
-        if(data.telefone() != null){
+        if (data.telefone() != null){
             this.telefone = data.telefone();
         }
         if(data.endereco() != null){
-            this.endereco.updateInfo(data.endereco());
-        }
+            this.endereco.updateInfo(data.endereco());}
     }
 
     public void delete() {

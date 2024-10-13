@@ -1,4 +1,4 @@
-package Clinic.med.API.adress;
+package Clinic.med.API.domain.adress;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

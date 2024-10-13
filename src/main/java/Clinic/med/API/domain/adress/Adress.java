@@ -1,4 +1,4 @@
-package Clinic.med.API.adress;
+package Clinic.med.API.domain.adress;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.Valid;

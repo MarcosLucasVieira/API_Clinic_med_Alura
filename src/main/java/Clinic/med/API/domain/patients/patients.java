@@ -1,7 +1,7 @@
-package Clinic.med.API.patients;
+package Clinic.med.API.domain.patients;
 
 
-import Clinic.med.API.adress.Adress;
+import Clinic.med.API.domain.adress.Adress;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

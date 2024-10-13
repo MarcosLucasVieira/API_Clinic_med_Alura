@@ -1,6 +1,6 @@
-package Clinic.med.API.medicals;
+package Clinic.med.API.domain.medicals;
 
-import Clinic.med.API.adress.DataAdress;
+import Clinic.med.API.domain.adress.DataAdress;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

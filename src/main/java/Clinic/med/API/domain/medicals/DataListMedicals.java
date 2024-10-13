@@ -1,4 +1,4 @@
-package Clinic.med.API.medicals;
+package Clinic.med.API.domain.medicals;
 
 public record DataListMedicals(Long id,String nome, String email, String crm, Specialty especialidade)  {
 
