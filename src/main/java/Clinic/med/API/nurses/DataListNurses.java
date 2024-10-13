@@ -1,8 +1,8 @@
 package Clinic.med.API.nurses;
 
-public record DataListNurses(String nome, String email, String coren) {
+public record DataListNurses(Long id, String nome, String email, String coren) {
 
     public DataListNurses(Nurses nurse){
-        this(nurse.getNome(), nurse.getEmail(), nurse.getCoren());
+        this(nurse.getId(), nurse.getNome(), nurse.getEmail(), nurse.getCoren());
     }
 }

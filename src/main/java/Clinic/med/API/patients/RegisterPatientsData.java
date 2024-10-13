@@ -1,4 +1,4 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.patients;
 
 import Clinic.med.API.adress.DataAdress;
 import jakarta.validation.Valid;
@@ -7,8 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record RegisterNursesData(
-
+public record RegisterPatientsData(
         @NotBlank
         String nome,
 
@@ -16,11 +15,15 @@ public record RegisterNursesData(
         String email,
 
         @NotBlank
+        @Pattern(regexp = "\\d{11}")
         String telefone,
 
-        @NotBlank @Pattern(regexp = "\\d{4,6}")
-        String coren,
+        @NotBlank
+        @Pattern(regexp = "\\d{11}")
+        String cpf,
 
         @NotNull @Valid
-        DataAdress endereco) {
+        DataAdress endereco)  {
+    public static record DataListPatients(Long id, String nome, String email, String cpf ) {
+    }
 }

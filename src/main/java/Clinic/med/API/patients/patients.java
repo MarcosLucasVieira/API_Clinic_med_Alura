@@ -1,57 +1,57 @@
-package Clinic.med.API.nurses;
+package Clinic.med.API.patients;
+
 
 import Clinic.med.API.adress.Adress;
-import Clinic.med.API.adress.DataAdress;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "nurses")
-@Entity(name = "nurse")
+
+@Table(name = "patients")
+@Entity(name = "patient")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Nurses {
+public class patients {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
     private String nome;
 
     @NotBlank
+    private String telefone;
+
     @Email
+    @NotBlank
     private String email;
 
     @NotBlank
-    private String telefone;
-
-    @NotBlank
-    private String coren;
+    private String cpf;
 
     @Embedded
     private Adress endereco;
 
     private Boolean ativo;
 
-
-    public Nurses(@Valid RegisterNursesData data) {
+    public patients(@Valid RegisterPatientsData data) {
         this.ativo = true;
         this.nome = data.nome();
-        this.email = data.email();
         this.telefone = data.telefone();
-        this.coren = data.coren();
+        this.email = data.email();
+        this.cpf = data.cpf();
         this.endereco = new Adress(data.endereco());
     }
 
-    public void updateInfo(@Valid NurseUpdateData data) {
+    public void updateInfo(@Valid PatientsUpdateData data) {
         if(data.nome() != null){
             this.nome = data.nome();
         }
