@@ -1,4 +1,4 @@
-package Clinic.med.API.infra;
+package Clinic.med.API.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
