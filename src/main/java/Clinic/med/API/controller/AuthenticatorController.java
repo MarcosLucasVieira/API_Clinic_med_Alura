@@ -2,6 +2,9 @@ package Clinic.med.API.controller;
 
 
 import Clinic.med.API.domain.user.DataAuthenticator;
+import Clinic.med.API.domain.user.User;
+import Clinic.med.API.infra.security.DataTokenJWT;
+import Clinic.med.API.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +22,17 @@ public class AuthenticatorController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity joinLogin(@RequestBody @Valid DataAuthenticator data){
-        var token = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        var authentication = manager.authenticate(token);
+        var Authenticationtoken = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var authentication = manager.authenticate(Authenticationtoken);
 
-        return  ResponseEntity.ok().build();
+        var tokenJWT =  tokenService.generateToken((User) authentication.getPrincipal());
+
+        return  ResponseEntity.ok(new DataTokenJWT(tokenJWT));
     }
 
 

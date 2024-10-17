@@ -1,31 +1,60 @@
 package Clinic.med.API.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.security.sasl.AuthenticationException;
+
 @RestControllerAdvice
 public class ErroHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity Erro404(){
+    public ResponseEntity tratarErro404() {
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler (MethodArgumentNotValidException.class)
-    public ResponseEntity Erro400(MethodArgumentNotValidException ex){
-        var erro = ex.getFieldErrors();
-
-        return ResponseEntity.badRequest().body(erro.stream().map(DataErroValidation::new).toList());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
+        var erros = ex.getFieldErrors();
+        return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
     }
 
-    private record  DataErroValidation (String field, String message ){
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity tratarErro400(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
-        public DataErroValidation (FieldError error){
-            this(error.getField(), error.getDefaultMessage());
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity tratarErroBadCredentials() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity tratarErroAuthentication() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity tratarErroAcessoNegado() {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity tratarErro500(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " +ex.getLocalizedMessage());
+    }
+
+    private record DadosErroValidacao(String campo, String mensagem) {
+        public DadosErroValidacao(FieldError erro) {
+            this(erro.getField(), erro.getDefaultMessage());
         }
     }
 }
