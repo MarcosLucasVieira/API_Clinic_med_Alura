@@ -15,19 +15,17 @@ public interface MedicalsRepository extends JpaRepository<Medicals, Long> {
     Page<Medicals> findAllByAtivoTrue(Pageable paginacao);
 
     @Query("""
-            Select M from medical M
-            where 
-            M.ativo= true
-            and 
-            m.especialidade= :especialidade
-            and 
-            m.id not in(
-                select q.medicals.id from query q
-                where
-                q.createdAt =: createdAt
-            )
-            order by rand()
-            limit 1
-""")
+        SELECT M FROM medical M
+        WHERE M.ativo = true
+        AND M.especialidade = :especialidade
+        AND M.id NOT IN (
+            SELECT q.medicals.id FROM query q
+            WHERE q.date = :date
+        )
+        ORDER BY RAND()
+        LIMIT 1
+        """)
+
+
     Medicals chooseRandoMedicals(Specialty especialidade, @NotNull @Future LocalDateTime date);
 }

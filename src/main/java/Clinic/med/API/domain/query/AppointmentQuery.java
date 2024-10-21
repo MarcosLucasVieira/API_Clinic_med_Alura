@@ -40,16 +40,13 @@ public class AppointmentQuery {
 
 
         var medicals = chooseMedical(data);
-        var nurses = chooseRandonNurse(data);
         var patient = patientsRepository.getReferenceById(data.IdPatient());
-        var query = new Query(null, medicals, nurses, patient, data.date());
+        var query = new Query(null, medicals, patient, data.date());
 
         queryRepository.save(query);
     }
 
-    private Nurses chooseRandonNurse(DataDetalsQuery data) {
-        return nursesRepository.chooseRandowNurse(data.date());
-    }
+
 
     private Medicals chooseMedical(DataDetalsQuery data) {
         if(data.idMedical() !=  null ){

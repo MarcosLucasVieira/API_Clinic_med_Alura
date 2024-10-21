@@ -30,12 +30,8 @@ public class Query {
     private Medicals medicals;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="nurses_id")
-    private Nurses nurses;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patients_id")
     private patients patients;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime date;
 }
