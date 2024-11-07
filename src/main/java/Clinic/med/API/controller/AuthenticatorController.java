@@ -27,7 +27,7 @@ public class AuthenticatorController {
 
     @PostMapping
     public ResponseEntity joinLogin(@RequestBody @Valid DataAuthenticator data){
-        var Authenticationtoken = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+        var Authenticationtoken = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var authentication = manager.authenticate(Authenticationtoken);
 
         var tokenJWT =  tokenService.generateToken((User) authentication.getPrincipal());
