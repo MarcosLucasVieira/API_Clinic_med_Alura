@@ -1,4 +1,3 @@
-melhore esse read.me
 # Clinica Médica
 
 ## Descrição
